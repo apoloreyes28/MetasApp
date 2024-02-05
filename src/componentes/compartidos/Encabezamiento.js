@@ -9,7 +9,7 @@ function Encabezamiento() {
                 <a href="/">Metas App</a>
             </div>
             <nav className="flex">
-            <a href="/perfil">Perfil</a>
+                <a href="/perfil">Perfil</a>
             </nav>
         </div>
     );
