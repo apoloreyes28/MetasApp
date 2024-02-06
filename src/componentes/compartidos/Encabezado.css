@@ -1,5 +1,5 @@
 .encabezado {
-    @apply h-xl flex justify-between shadow bg-white text-gray-700;
+    @apply h-xl flex justify-between shadow bg-white text-gray-700 relative;
 }
 
 .contenedor {
@@ -7,7 +7,7 @@
 }
 
 .logo {
-    @apply mr-20 h-10 w-10;
+    @apply mr-2 h-10 w-10;
 }
 
 .titulo {
