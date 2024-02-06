@@ -2,7 +2,15 @@
 module.exports = {
   content: ["./src/**/*.{html,js}"],
   theme: {
-    extend: {},
+    extend: {
+      // modificamos la configuracion
+      height: {
+        sm: '8px',
+        md: '16px',
+        lg: '24px',
+        xl: '48px',
+      },
+    },
   },
   plugins: [],
 }
