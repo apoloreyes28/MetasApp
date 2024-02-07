@@ -20,7 +20,7 @@ function Principal({ children }) {
                 Icono ={NuevaSVG}
                 />
             </aside>
-            <main className={estilos.main}>
+            <main className="main">
                 {children}
             </main>
         </div>
