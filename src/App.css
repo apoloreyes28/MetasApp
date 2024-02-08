@@ -1,6 +1,6 @@
 /* esta es una clase global que vamos usar en la mayoría de elementos */
 .tarjeta {
-  @apply rounded-xl m-4 text-gray-700 text-xs mx-4 nm-flat-white;
+  @apply rounded-xl m-4 text-gray-700 text-xs mx-4 nm-flat-white overflow-hidden;
                                                     /* neumorfismo */
 }
 
