@@ -125,5 +125,3 @@ function Detalles() {
 }
 
 export default Detalles;
-
-// <></>

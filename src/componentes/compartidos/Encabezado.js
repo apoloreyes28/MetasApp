@@ -13,7 +13,7 @@ function Encabezado() {
             </div>
             <nav>
                 <Vinculo
-                    href="/perfil"
+                    to="/perfil"
                     Icono={PerfilSVG}
                 />
             </nav>
