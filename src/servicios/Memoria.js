@@ -77,8 +77,7 @@ function Memoria({ children }) {
     return (
         <Contexto.Provider value={[estado, enviar]}>
             {children}
-        </Contexto.Provider>
-        // <></>  
+        </Contexto.Provider> 
     );
 }
 
