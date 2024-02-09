@@ -1,5 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { Contexto } from "../../servicios/Memoria";
 import estilos from './Detalles.module.css';
+import { useNavigate } from 'react-router-dom';
 
 function Detalles() {
 
@@ -21,9 +23,15 @@ function Detalles() {
         // console.log(form);
     }, [form]); 
 
+    const navegar = useNavigate();
+
     const crear = async () => {
-        console.log(form);
+        // console.log(form);
+        enviar({tipo: 'crear', meta: form});
+        navegar('/lista');
     }
+
+    const [estado, enviar] = useContext(Contexto);
 
     // extraemos a cada uno de los elementos del estado
     const { detalles, eventos, periodo, icono, meta, plazo, completado} = form;
@@ -72,6 +80,7 @@ function Detalles() {
                     ¿Cuantas veces deseas completar esta meta?
                     <input 
                     type="number"
+                    className='input'
                     value={meta}
                     onChange={(e) => onChange(e, "meta")}
                     />
