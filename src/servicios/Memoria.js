@@ -32,11 +32,14 @@ const listaMock = [{
 }
 ];
 
-// normalización
-const estadoInicial = {
-    orden: [],
-    objetos: {}
-};
+// normalización, con localStorage podemos guardar los datos en el navegador
+const memoria = localStorage.getItem('metas');
+const estadoInicial = memoria
+    ? JSON.parse(memoria)
+    : {
+        orden: [],
+        objetos: {}
+    };
 
 function reductor(estado, accion) {
     // eslint-disable-next-line default-case
@@ -47,9 +50,9 @@ function reductor(estado, accion) {
                 orden: metas.map(meta => meta.id),
                 objetos: metas.reduce((objeto, meta) => ({ ...objeto, [meta.id]: meta }), {})
             };
-            // cada una de las metas que recibimos la vamos a
-            // mapear para asi crear un arreglo (lista) de IDs
-            // para preservar el orden
+            localStorage.setItem('metas', JSON.stringify(nuevoEstado));
+            //                   clave  = valor     en formato de texto
+
             return nuevoEstado;
         };
         // eslint-disable-next-line no-duplicate-case
@@ -87,16 +90,17 @@ function reductor(estado, accion) {
         };
     }
 }
-const metas = reductor(estadoInicial, { tipo: 'colocar', metas: listaMock });
+
+reductor(estadoInicial, { tipo: 'colocar', metas: listaMock });
 
 export const Contexto = createContext(null);
 
 function Memoria({ children }) {
-    const [estado, enviar] = useReducer(reductor, metas);
+    const [estado, enviar] = useReducer(reductor, estadoInicial);
     return (
         <Contexto.Provider value={[estado, enviar]}>
             {children}
-        </Contexto.Provider> 
+        </Contexto.Provider>
     );
 }
 
