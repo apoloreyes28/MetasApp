@@ -13,7 +13,11 @@ function App() {
         <Route index element={<Lista />} />
         <Route path="/lista/" element={<Lista />} >
           {/* vamos a pasar una nueva ruta a lista por composición */}
-          <Route path="/lista/:id" element={<Modal />} />
+          <Route path="/lista/:id" element={
+            <Modal>
+              <Detalles />
+            </Modal>
+          } />
         </Route>
         <Route path="/nueva" element={<Detalles />} />
       </Route>

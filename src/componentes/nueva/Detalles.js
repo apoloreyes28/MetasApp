@@ -1,9 +1,12 @@
 import { useEffect, useState, useContext } from 'react';
 import { Contexto } from "../../servicios/Memoria";
 import estilos from './Detalles.module.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function Detalles() {
+
+    const { id } = useParams();
+    // console.log(id);
 
     const [form, setForm] = useState({
         detalles: '',
@@ -20,21 +23,42 @@ function Detalles() {
     };
 
     useEffect(() => {
-        // console.log(form);
-    }, [form]); 
+        const metaMemoria = estado.objetos[id];
+        if (!id) return;// si no hay (encuentra) la ID no hacemos nada...
+        if (!metaMemoria) {
+            return navegar('/');// esto solo nos regresa a la página de inicio
+            // return navegar('/404'); esto nos manda a otra página
+        }
+        setForm(metaMemoria);
+        // este código (hook) va correr cuando cambiemos la ID
+    }, [id]);
 
     const navegar = useNavigate();
 
-    const crear = async () => {
-        // console.log(form);
-        enviar({tipo: 'crear', meta: form});
+    const crear = () => {
+        enviar({ tipo: 'crear', meta: form });
         navegar('/lista');
+    }
+
+    const actualizar = () => {
+        enviar({ tipo: 'actualizar', meta: form });
+        navegar('/lista');
+    }
+
+
+    const borrar = () => {
+        enviar({ tipo: 'borrar', id});
+        navegar('/lista');
+    }
+
+    const cancelar = () => {
+        navegar('/lista');// nos va regresar a la página de inicio
     }
 
     const [estado, enviar] = useContext(Contexto);
 
     // extraemos a cada uno de los elementos del estado
-    const { detalles, eventos, periodo, icono, meta, plazo, completado} = form;
+    const { detalles, eventos, periodo, icono, meta, plazo, completado } = form;
 
     const frecuancias = ["día", "semana", "mes", "año"];
     const iconos = ["🏃", "✈️", "📖", "🐕", "💵"];
@@ -44,26 +68,26 @@ function Detalles() {
             <form className='p-4'>
                 <label className='label'>
                     Describe tu meta
-                    <input 
-                    className='input'
-                    placeholder="ej. 52 caminatas" 
-                    value={detalles}
-                    onChange={(e) => onChange(e, "detalles")}
+                    <input
+                        className='input'
+                        placeholder="ej. 52 caminatas"
+                        value={detalles}
+                        onChange={(e) => onChange(e, "detalles")}
                     />
                 </label>
                 <label className='label'>
                     ¿Con que frecuencia deseas cumplir tu meta? <span>(ej. 1 vez a la semana)</span>
                     <div className='flex mb-6'>
                         <input
-                        className='input mr-6' 
-                        type="number"
-                        value={eventos}
-                        onChange={(e) => onChange(e, "eventos")}
+                            className='input mr-6'
+                            type="number"
+                            value={eventos}
+                            onChange={(e) => onChange(e, "eventos")}
                         />
-                        <select 
-                        className="input"
-                        value={periodo}
-                        onChange={(e) => onChange(e, "periodo")}
+                        <select
+                            className="input"
+                            value={periodo}
+                            onChange={(e) => onChange(e, "periodo")}
                         >
                             {frecuancias.map(opcion => <option value={opcion}>{opcion}</option>)}
 
@@ -78,37 +102,37 @@ function Detalles() {
                 </label>
                 <label className='label'>
                     ¿Cuantas veces deseas completar esta meta?
-                    <input 
-                    type="number"
-                    className='input'
-                    value={meta}
-                    onChange={(e) => onChange(e, "meta")}
+                    <input
+                        type="number"
+                        className='input'
+                        value={meta}
+                        onChange={(e) => onChange(e, "meta")}
                     />
                 </label>
                 <label className='label'>
                     ¿Tienes una fecha límite?
-                    <input 
-                    className='input'
-                    type="date"
-                    value={plazo}
-                    onChange={(e) => onChange(e, "plazo")} 
+                    <input
+                        className='input'
+                        type="date"
+                        value={plazo}
+                        onChange={(e) => onChange(e, "plazo")}
                     />
                 </label>
                 <label className='label'>
                     ¿Cuantas veces haz completado ya esta meta?
-                    <input 
-                    className='input'
-                    type="number"
-                    value={completado} 
-                    onChange={(e) => onChange(e, "completado")}
+                    <input
+                        className='input'
+                        type="number"
+                        value={completado}
+                        onChange={(e) => onChange(e, "completado")}
                     />
                 </label>
                 <label className='label'>
                     Escoge el icono para la meta
-                    <select 
-                    className="input"
-                    value={icono}
-                    onChange={(e) => onChange(e, "icono")}
+                    <select
+                        className="input"
+                        value={icono}
+                        onChange={(e) => onChange(e, "icono")}
                     >
                         {iconos.map(opcion => <option value={opcion}>{opcion}</option>)}
                         {/* 
@@ -122,12 +146,25 @@ function Detalles() {
                 </label>
             </form>
             <div className={estilos.botones}>
-                <buttom 
-                className="boton boton--negro"
-                onClick={crear}
-                >
-                Crear</buttom>
-                <buttom className="boton boton--gris">Cancelar</buttom>
+                {!id && <buttom
+                    className="boton boton--negro"
+                    onClick={crear}>Crear
+                </buttom>}
+
+                {id && <buttom
+                    className="boton boton--negro"
+                    onClick={actualizar}>Actualizar
+                </buttom>}
+
+                {id && <buttom
+                    className="boton boton--rojo"
+                    onClick={borrar}>Borrar
+                </buttom>}
+
+                <buttom
+                    className="boton boton--gris"
+                    onClick={cancelar}>Cancelar
+                </buttom>
             </div>
         </div>
     );
