@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 import { Contexto } from "../../servicios/Memoria";
 import estilos from './Detalles.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
+import { crearMeta } from '../../servicios/Pedidos';
 
 function Detalles() {
 
@@ -18,12 +19,14 @@ function Detalles() {
         completado: 0
     });
 
+    const navegar = useNavigate();
+
     const onChange = (event, prop) => {
         setForm((estado) => ({ ...estado, [prop]: event.target.value }));
     };
 
     useEffect(() => {
-        const metaMemoria = estado.objetos[id];
+        const metaMemoria = estado?.objetos[id];
         if (!id) return;// si no hay (encuentra) la ID no hacemos nada...
         if (!metaMemoria) {
             return navegar('/404');// esto nos manda a otra página
@@ -32,10 +35,9 @@ function Detalles() {
         // este código (hook) va correr cuando cambiemos la ID
     }, [id]);
 
-    const navegar = useNavigate();
-
-    const crear = () => {
-        enviar({ tipo: 'crear', meta: form });
+    const crear = async () => {
+        const nuevaMeta = await crearMeta();
+        enviar({ tipo: 'crear', meta: nuevaMeta });
         navegar('/lista');
     }
 
@@ -43,7 +45,6 @@ function Detalles() {
         enviar({ tipo: 'actualizar', meta: form });
         navegar('/lista');
     }
-
 
     const borrar = () => {
         enviar({ tipo: 'borrar', id});

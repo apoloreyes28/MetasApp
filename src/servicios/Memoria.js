@@ -1,28 +1,31 @@
 import { createContext, useReducer } from "react";
 
-const memoria = localStorage.getItem('metas');
-const estadoInicial = memoria
-    ? JSON.parse(memoria)
-    : {
-        orden: [],
-        objetos: {}
-    };
+// const memoria = localStorage.getItem('metas');
+const estadoInicial = {
+    orden: [],
+    objetos: {}
+};
+// memoria ? JSON.parse(memoria) : {
+//         orden: [],
+//         objetos: {}
+//     };
 
 function reductor(estado, accion) {
     // eslint-disable-next-line default-case
     switch (accion.tipo) {
         case 'colocar': {
-            const metas = accion.metas;
+            const metas = Array.isArray(accion.metas) ? accion.metas : [];
             const nuevoEstado = {
                 orden: metas.map(meta => meta.id),
                 objetos: metas.reduce((objeto, meta) => ({ ...objeto, [meta.id]: meta }), {})
             };
-            localStorage.setItem('metas', JSON.stringify(nuevoEstado));
+            // localStorage.setItem('metas', JSON.stringify(nuevoEstado));
             return nuevoEstado;
         };
         // eslint-disable-next-line no-duplicate-case
         case 'crear': {
-            const id = String(Math.floor(Math.random() * 100));
+            const id = accion.meta.id;
+            // String(Math.floor(Math.random() * 100));
 
             const nuevoEstado = {
                 orden: [...estado.orden, id],
@@ -30,7 +33,7 @@ function reductor(estado, accion) {
                     ...estado.objetos,
                     [id]: { id, ...accion.meta } }
             }
-            localStorage.setItem('metas', JSON.stringify(nuevoEstado));
+            // localStorage.setItem('metas', JSON.stringify(nuevoEstado));
             return nuevoEstado;
         };
         case 'actualizar': {
@@ -39,7 +42,7 @@ function reductor(estado, accion) {
                 ...accion.meta
             };
             const nuevoEstado = { ...estado };
-            localStorage.setItem('metas', JSON.stringify(nuevoEstado));
+            // localStorage.setItem('metas', JSON.stringify(nuevoEstado));
             return nuevoEstado;
         };
         case 'borrar': {
@@ -51,7 +54,7 @@ function reductor(estado, accion) {
                 orden: nuevoOrden,
                 objetos: estado.objetos
             };
-            localStorage.setItem('metas', JSON.stringify(nuevoEstado));
+            // localStorage.setItem('metas', JSON.stringify(nuevoEstado));
             return nuevoEstado;
         };
         default:
