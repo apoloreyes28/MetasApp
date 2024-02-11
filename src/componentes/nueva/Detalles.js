@@ -88,7 +88,7 @@ function Detalles() {
                             value={periodo}
                             onChange={(e) => onChange(e, "periodo")}
                         >
-                            {frecuancias.map(opcion => <option value={opcion}>{opcion}</option>)}
+                            {frecuancias.map(opcion => <option key={opcion} value={opcion}>{opcion}</option>)}
                         </select>
                     </div>
                 </label>
@@ -126,7 +126,7 @@ function Detalles() {
                         value={icono}
                         onChange={(e) => onChange(e, "icono")}
                     >
-                        {iconos.map(opcion => <option value={opcion}>{opcion}</option>)}
+                        {iconos.map(opcion => <option key={opcion} value={opcion}>{opcion}</option>)}
                     </select>
                 </label>
             </form>
