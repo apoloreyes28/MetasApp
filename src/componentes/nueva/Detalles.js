@@ -26,8 +26,7 @@ function Detalles() {
         const metaMemoria = estado.objetos[id];
         if (!id) return;// si no hay (encuentra) la ID no hacemos nada...
         if (!metaMemoria) {
-            return navegar('/');// esto solo nos regresa a la página de inicio
-            // return navegar('/404'); esto nos manda a otra página
+            return navegar('/404');// esto nos manda a otra página
         }
         setForm(metaMemoria);
         // este código (hook) va correr cuando cambiemos la ID
@@ -90,13 +89,6 @@ function Detalles() {
                             onChange={(e) => onChange(e, "periodo")}
                         >
                             {frecuancias.map(opcion => <option value={opcion}>{opcion}</option>)}
-
-                            {/* 
-                            <option value="día">al día</option>
-                            <option value="semana">a la semana</option>
-                            <option value="mes">al mes</option>
-                            <option value="año">al año</option> 
-                            */}
                         </select>
                     </div>
                 </label>
@@ -135,13 +127,6 @@ function Detalles() {
                         onChange={(e) => onChange(e, "icono")}
                     >
                         {iconos.map(opcion => <option value={opcion}>{opcion}</option>)}
-                        {/* 
-                        <option value="🏃">🏃</option>
-                        <option value="✈️">✈️</option>
-                        <option value="📖">📖</option>
-                        <option value="🐕">🐕</option>
-                        <option value="💵">💵</option> 
-                        */}
                     </select>
                 </label>
             </form>
